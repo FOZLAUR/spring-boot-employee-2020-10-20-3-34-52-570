@@ -32,7 +32,6 @@ public class EmployeeService {
         employee.setAge(updatedEmployee.getAge());
         employee.setGender(updatedEmployee.getGender());
         employee.setSalary(updatedEmployee.getSalary());
-        employee.setCompanyId(updatedEmployee.getCompanyId());
         employeeRepository.save(employee);
         return employee;
     }

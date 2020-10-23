@@ -21,9 +21,9 @@ public class EmployeeController {
         return employeeService.getAll();
     }
 
-    @GetMapping("/{employeeID}")
-    public Employee getEmployee(@PathVariable int employeeID){
-        return employeeService.findEmployee(employeeID);
+    @GetMapping("/{employeeId}")
+    public Employee getEmployee(@PathVariable int employeeId){
+        return employeeService.findEmployee(employeeId);
     }
 
     @GetMapping(params = {"page","pageSize"})
@@ -47,8 +47,8 @@ public class EmployeeController {
         return  employeeService.updateEmployee(employeeId, newEmploy);
     }
 
-    @DeleteMapping("/{employeeID}")
-    public void deleteEmployee(@PathVariable int employeeID){
-        employeeService.deleteEmployee(employeeID);
+    @DeleteMapping("/{employeeId}")
+    public void deleteEmployee(@PathVariable int employeeId){
+        employeeService.deleteEmployee(employeeId);
     }
 }

@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,11 +13,16 @@ public class Company {
     @OneToMany(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(columnDefinition = "company_Id")
-    private List<Employee> employees;
+    @JoinColumn(columnDefinition = "companyId")
+    private List<Employee> employees=new ArrayList<>();
 
     public Company(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Company(String companyName, List<Employee> employees) {
+        this.companyName = companyName;
+        this.employees = employees;
     }
 
     public Company() { }
