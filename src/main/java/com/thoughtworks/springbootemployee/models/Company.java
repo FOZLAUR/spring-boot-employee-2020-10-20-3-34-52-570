@@ -11,19 +11,19 @@ public class Company {
     private int companyId;
     private String companyName;
     @OneToMany(
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
-    @JoinColumn(columnDefinition = "companyId")
+    @JoinColumn(columnDefinition = "company_id")
     private List<Employee> employees=new ArrayList<>();
 
     public Company(String companyName) {
         this.companyName = companyName;
     }
 
-    public Company(String companyName, List<Employee> employees) {
-        this.companyName = companyName;
-        this.employees = employees;
-    }
+//    public Company(String companyName, List<Employee> employees) {
+//        this.companyName = companyName;
+//        this.employees = employees;
+//    }
 
     public Company() { }
 

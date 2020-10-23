@@ -14,14 +14,17 @@ public class Employee {
     private int age;
     private String gender;
     private int salary;
+    private int companyId;
 
     public Employee(){}
 
-    public Employee(String name, int age, String gender, int salary) {
+    public Employee(int employeeId, String name, int age, String gender, int salary, int companyId) {
+        this.employeeId = employeeId;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.companyId = companyId;
     }
 
     public Employee(int employeeId, String name, int age, String gender, int salary) {
@@ -31,6 +34,21 @@ public class Employee {
         this.gender = gender;
         this.salary = salary;
     }
+
+//    public Employee(String name, int age, String gender, int salary) {
+//        this.name = name;
+//        this.age = age;
+//        this.gender = gender;
+//        this.salary = salary;
+//    }
+//
+//    public Employee(String name, int age, String gender, int salary, int companyId) {
+//        this.name = name;
+//        this.age = age;
+//        this.gender = gender;
+//        this.salary = salary;
+//        this.companyId = companyId;
+//    }
 
     public int getEmployeeId() {
         return employeeId;
@@ -66,5 +84,13 @@ public class Employee {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 }
