@@ -56,8 +56,7 @@ public class CompanyService {
         Company company = findCompany(companyId);
         company.setCompanyName(updatedCompany.getCompanyName());
         company.setEmployees(updatedCompany.getEmployees());
-        companyRepository.save(company);
-        return updatedCompany;
+        return companyRepository.save(company);
     }
 
     public void deleteEmployees(int companyId) {
