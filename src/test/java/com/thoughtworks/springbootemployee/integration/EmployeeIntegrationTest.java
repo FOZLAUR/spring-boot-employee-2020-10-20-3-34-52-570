@@ -4,6 +4,7 @@ import com.thoughtworks.springbootemployee.models.Employee;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,6 +30,11 @@ public class EmployeeIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+//    @BeforeEach
+//    void initializeVariables(){
+//
+//    };
 
     @AfterEach
     void tearDown() {
@@ -125,10 +131,6 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(employee.getAge()))
                 .andExpect(jsonPath("$.gender").value(employee.getGender()))
                 .andExpect(jsonPath("$.salary").value(employee.getSalary()));
-
-        List<Employee> employeeList = employeeRepository.findAll();
-        Assertions.assertEquals(2, employeeList.size());
-        Assertions.assertEquals("Chels", employeeList.get(0).getName());
     }
 
     @Test
@@ -146,9 +148,9 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].gender").value(employee.getGender()))
                 .andExpect(jsonPath("$[0].salary").value(employee.getSalary()));
 
-        List<Employee> employeeList = employeeRepository.findAll();
-        Assertions.assertEquals(2, employeeList.size());
-        Assertions.assertEquals("male", employeeList.get(0).getGender());
+        List<Employee> maleEmployeeList = employeeRepository.findByGender(employee.getGender());
+        Assertions.assertEquals(1, maleEmployeeList.size());
+        Assertions.assertEquals("male", maleEmployeeList.get(0).getGender());
     }
 
     @Test
@@ -166,23 +168,28 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].gender").value(employee.getGender()))
                 .andExpect(jsonPath("$[0].salary").value(employee.getSalary()));
 
-        List<Employee> employeeList = employeeRepository.findAll();
-        Assertions.assertEquals(2, employeeList.size());
-        Assertions.assertEquals("female", employeeList.get(0).getGender());
+        List<Employee> expectedFemaleEmployeeList = employeeRepository.findByGender(employee.getGender());
+        Assertions.assertEquals(1, expectedFemaleEmployeeList.size());
+        Assertions.assertEquals("female", expectedFemaleEmployeeList.get(0).getGender());
     }
 
     @Test
     void should_delete_employee_when_delete_employee_given_employee_id() throws Exception {
         //given
-        Employee employee = employeeRepository.save(new Employee(9, "Alice", 22, "female",  5000));
-        employeeRepository.save(new Employee(10, "Tom", 18, "male",  1000));
+        Employee employee1 = employeeRepository.save(new Employee(9, "Alice", 22, "female",  5000));
+        Employee employee2 = employeeRepository.save(new Employee(10, "Tom", 18, "male",  1000));
 
         //when
-        mockMvc.perform(delete(EMPLOYEES_URI + "/" + employee.getEmployeeId()));
+        mockMvc.perform(delete(EMPLOYEES_URI + "/" + employee1.getEmployeeId()));
 
         //then
         List<Employee> employeeList = employeeRepository.findAll();
         Assertions.assertEquals(1, employeeList.size());
+        Assertions.assertEquals(employeeList.get(0).getEmployeeId(), employee2.getEmployeeId());
+        Assertions.assertEquals(employeeList.get(0).getName(), employee2.getName());
+        Assertions.assertEquals(employeeList.get(0).getAge(), employee2.getAge());
+        Assertions.assertEquals(employeeList.get(0).getGender(), employee2.getGender());
+        Assertions.assertEquals(employeeList.get(0).getSalary(), employee2.getSalary());
     }
 
     @Test
