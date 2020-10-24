@@ -29,14 +29,13 @@ public class CompanyController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Company create(@RequestBody Company company){
-        return companyService.createCompany(company);
+    public CompanyResponse create(@RequestBody Company company){
+        return companyMapper.toResponse(companyService.createCompany(company));
     }
 
     @GetMapping("/{companyId}")
     public CompanyResponse getCompany(@PathVariable int companyId){
-        Company company = companyService.findCompany(companyId);
-        return companyMapper.toResponse(company);
+        return companyMapper.toResponse(companyService.findCompany(companyId));
     }
 
     @GetMapping("/{companyId}/employees")
