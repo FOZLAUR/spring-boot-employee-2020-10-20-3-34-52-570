@@ -123,7 +123,7 @@ public class CompanyServiceTests {
         Company company = new Company("Tom");
         CompanyService companyService = new CompanyService(companyRepository, employeeRepository);
 
-        companyService.deleteEmployees(company.getCompanyId());
+        companyService.deleteCompany(company.getCompanyId());
 
         Mockito.verify(companyRepository).deleteById(company.getCompanyId());
     }

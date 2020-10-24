@@ -71,7 +71,7 @@ public class CompanyService {
         return updatedCompany;
     }
 
-    public void deleteEmployees(int companyId) {
+    public void deleteCompany(int companyId) {
         //companyRepository.findById(companyId).orElseThrow(() -> new CompanyNotFoundException(companyId));
         companyRepository.deleteById(companyId);
     }
