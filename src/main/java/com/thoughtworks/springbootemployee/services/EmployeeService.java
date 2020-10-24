@@ -27,15 +27,27 @@ public class EmployeeService {
 
     public Employee updateEmployee(int employeeID, Employee updatedEmployee) {
         Employee employee = findEmployee(employeeID);
-        employee.setName(updatedEmployee.getName());
-        employee.setAge(updatedEmployee.getAge());
-        employee.setGender(updatedEmployee.getGender());
-        employee.setSalary(updatedEmployee.getSalary());
+        if(updatedEmployee.getName() != null){
+            employee.setName(updatedEmployee.getName());
+        }
+        if(updatedEmployee.getAge() > 0){
+            employee.setAge(updatedEmployee.getAge());
+        }
+        if(updatedEmployee.getGender() != null){
+            employee.setGender(updatedEmployee.getGender());
+        }
+        if(updatedEmployee.getSalary() > 0){
+            employee.setSalary(updatedEmployee.getSalary());
+        }
+        if(updatedEmployee.getCompanyId() > 0){
+            employee.setCompanyId(updatedEmployee.getCompanyId());
+        }
         employeeRepository.save(employee);
         return employee;
     }
 
     public void deleteEmployee(int employeeID) {
+        //employeeRepository.findById(employeeID).orElseThrow(() -> new EmployeeNotFoundException(employeeID));
         employeeRepository.deleteById(employeeID);
     }
 

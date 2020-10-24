@@ -45,7 +45,9 @@ public class CompanyService {
     }
 
     public Company findCompany(int companyId) {
-        Company foundCompany = companyRepository.findById(companyId).orElseThrow(() -> new CompanyNotFoundException(companyId));
+        Company foundCompany = companyRepository
+                .findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException(companyId));
         foundCompany.setEmployees(findEmployeeByCompanyId(foundCompany.getCompanyId()));
         return foundCompany;
     }
@@ -70,6 +72,7 @@ public class CompanyService {
     }
 
     public void deleteEmployees(int companyId) {
+        //companyRepository.findById(companyId).orElseThrow(() -> new CompanyNotFoundException(companyId));
         companyRepository.deleteById(companyId);
     }
 }
