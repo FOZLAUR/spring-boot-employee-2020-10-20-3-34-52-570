@@ -83,8 +83,8 @@ public class CompanyIntegrationTest {
         //then
         mockMvc.perform(put(COMPANIES_URI + "/" + existingCompany.getCompanyId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(companyAsJson)
-                ).andExpect(status().isOk())
+                .content(companyAsJson))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyId").isNumber())
                 .andExpect(jsonPath("$.companyName").value("SVG"));
     }
@@ -137,17 +137,15 @@ public class CompanyIntegrationTest {
     }
 
     @Test
-    void should_delete_employee_when_delete_employee_given_employee_id() throws Exception {
+    void should_delete_employee_when_delete_employee_given_company_id() throws Exception {
         //given
         Company company = companyRepository.save(new Company("SVG"));
-
 
         //when
         mockMvc.perform(delete(COMPANIES_URI + "/" + company.getCompanyId()));
 
         //then
-        List<Employee> employeeList = employeeRepository.findAll();
+        List<Employee> employeeList = employeeRepository.findByCompanyId(company.getCompanyId());
         Assertions.assertEquals(0, employeeList.size());
     }
-
 }
