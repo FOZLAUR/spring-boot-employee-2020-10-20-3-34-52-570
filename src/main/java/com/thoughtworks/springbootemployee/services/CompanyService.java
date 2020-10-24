@@ -21,7 +21,12 @@ public class CompanyService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Company> getAll() { return companyRepository.findAll();
+    public List<Company> getAll() {
+        List<Company> employeesMappedToCompaniesList = companyRepository.findAll();
+        employeesMappedToCompaniesList.stream()
+                .forEach(company -> company.setEmployees(findEmployeeByCompanyId(company.getCompanyId())));
+        //return companyRepository.findAll();
+        return employeesMappedToCompaniesList;
     }
 
     public Company createCompany(Company companyResponseBody) {
@@ -36,11 +41,13 @@ public class CompanyService {
 //                        employeeRepository.save(employee);
 //                });
 //        return companyRepository.findById(savedCompanyId).orElse(null);
-    return companyRepository.save(companyResponseBody);
+        return companyRepository.save(companyResponseBody);
     }
 
     public Company findCompany(int companyId) {
-        return companyRepository.findById(companyId).orElseThrow(() -> new CompanyNotFoundException(companyId));
+        Company foundCompany = companyRepository.findById(companyId).orElseThrow(() -> new CompanyNotFoundException(companyId));
+        foundCompany.setEmployees(findEmployeeByCompanyId(foundCompany.getCompanyId()));
+        return foundCompany;
     }
 
     public List<Employee> findEmployeeByCompanyId(int companyId) {
@@ -49,6 +56,8 @@ public class CompanyService {
 
     public List<Company> getCompanyByPage(int page, int pageSize) {
         Page<Company> companies = companyRepository.findAll(PageRequest.of(page, pageSize));
+        companies.stream()
+                .forEach(company -> company.setEmployees(findEmployeeByCompanyId(company.getCompanyId())));
         return companies.toList();
     }
 
@@ -56,7 +65,8 @@ public class CompanyService {
         Company company = findCompany(companyId);
         company.setCompanyName(updatedCompany.getCompanyName());
         company.setEmployees(updatedCompany.getEmployees());
-        return companyRepository.save(company);
+        companyRepository.save(company);
+        return updatedCompany;
     }
 
     public void deleteEmployees(int companyId) {
