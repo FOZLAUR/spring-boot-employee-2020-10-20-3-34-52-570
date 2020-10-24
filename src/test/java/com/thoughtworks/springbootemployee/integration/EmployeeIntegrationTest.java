@@ -112,8 +112,8 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.salary").value(1000))
                 .andExpect(jsonPath("$.companyId").value(0));
 
-        List<Employee> employeeList = employeeRepository.findAll();
-        Assertions.assertEquals("Chelsie", employeeList.get(0).getName());
+        Employee foundEmployee = employeeRepository.findById(employee.getEmployeeId()).orElse(null);
+        Assertions.assertEquals("Chelsie", foundEmployee.getName());
     }
 
     @Test
