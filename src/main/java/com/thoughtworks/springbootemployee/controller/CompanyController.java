@@ -46,8 +46,9 @@ public class CompanyController {
     }
 
     @GetMapping(params = {"page","pageSize"})
-    public List<Company> getPagedCompanies(int page, int pageSize){
-        return companyService.getCompanyByPage(page, pageSize);
+    public List<CompanyResponse> getPagedCompanies(int page, int pageSize){
+        List<Company> companies = companyService.getCompanyByPage(page, pageSize);
+        return companies.stream().map(companyMapper::toResponse).collect(Collectors.toList());
     }
 
     @PutMapping("/{companyId}")
